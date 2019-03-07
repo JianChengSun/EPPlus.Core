@@ -91,7 +91,11 @@ namespace OfficeOpenXml.Packaging
         }
         internal ZipPackageRelationship GetRelationship(string id)
         {
-            return _rels[id];
+            if (_rels.ContainsKey(id))
+            {
+                return _rels[id];
+            }
+            return null;
         }
         internal void ReadRelation(string xml, string source)
         {

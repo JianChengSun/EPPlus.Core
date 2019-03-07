@@ -1192,24 +1192,27 @@ namespace OfficeOpenXml
                     if (xr.GetAttribute("id", ExcelPackage.schemaRelationships) != null)
                     {
                         var rId = xr.GetAttribute("id", ExcelPackage.schemaRelationships);
-                        var uri = Part.GetRelationship(rId).TargetUri;
-                        if (uri.IsAbsoluteUri)
+                        var uri = Part.GetRelationship(rId)?.TargetUri;
+                        if (uri != null)
                         {
-                            try
+                            if (uri.IsAbsoluteUri)
                             {
-                                hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                try
+                                {
+                                    hl = new ExcelHyperLink(uri.AbsoluteUri);
+                                }
+                                catch
+                                {
+                                    hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                }
                             }
-                            catch
+                            else
                             {
-                                hl = new ExcelHyperLink(uri.OriginalString, UriKind.Absolute);
+                                hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
                             }
+                            hl.RId = rId;
+                            Part.DeleteRelationship(rId); //Delete the relationship, it is recreated when we save the package.
                         }
-                        else
-                        {
-                            hl = new ExcelHyperLink(uri.OriginalString, UriKind.Relative);
-                        }
-                        hl.RId = rId;
-                        Part.DeleteRelationship(rId); //Delete the relationship, it is recreated when we save the package.
                     }
                     else if (xr.GetAttribute("location") != null)
                     {

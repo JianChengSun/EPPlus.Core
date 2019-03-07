@@ -7,7 +7,7 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <AssemblyName>EPPlus.Core</AssemblyName>
-    <PackageId>EPPlus.Core</PackageId>
+    <PackageId>CSC.EPPlus.Core</PackageId>
     <PackageTags>EPPlus;aspnetcore;Excel;Export;Report;Reporting;OOXML</PackageTags>
     <PackageProjectUrl>https://github.com/VahidN/EPPlus.Core</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/VahidN/EPPlus.Core/blob/master/LICENSE.md</PackageLicenseUrl>
