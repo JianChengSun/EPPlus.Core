@@ -988,32 +988,29 @@ namespace OfficeOpenXml
 		}
 		private string GetFormattedText(bool forWidthCalc)
 		{
-			object v = Value;
+            object v = Value;
 			if (v == null) return "";
 			var styles = Worksheet.Workbook.Styles;
-			var nfID = styles.CellXfs[StyleID].NumberFormatId;
-			ExcelNumberFormatXml.ExcelFormatTranslator nf = null;
-			for (int i = 0; i < styles.NumberFormats.Count; i++)
-			{
-				if (nfID == styles.NumberFormats[i].NumFmtId)
-				{
-					nf = styles.NumberFormats[i].FormatTranslator;
-					break;
-				}
-			}
+		    var nfID = styles.CellXfs[StyleID].NumberFormatId;
+            ExcelNumberFormatXml.ExcelFormatTranslator nf = styles.NumberFormats.FirstOrDefault(q => q.NumFmtId == nfID)?.FormatTranslator;
 
-			string format, textFormat;
-			if (forWidthCalc)
-			{
-				format = nf.NetFormatForWidth;
-				textFormat = nf.NetTextFormatForWidth;
-			}
-			else
-			{
-				format = nf.NetFormat;
-				textFormat = nf.NetTextFormat;
-			}
+		    if (nf == null)
+		    {
+		        return "";
+		    }
 
+            string format, textFormat;
+		    if (forWidthCalc)
+		    {
+		        format = nf.NetFormatForWidth;
+		        textFormat = nf.NetTextFormatForWidth;
+		    }
+		    else
+		    {
+		        format = nf.NetFormat;
+		        textFormat = nf.NetTextFormat;
+		    }
+            
             return FormatValue(v, nf, format, textFormat);
 		}
 
