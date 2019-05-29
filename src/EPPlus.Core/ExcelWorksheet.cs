@@ -1221,12 +1221,15 @@ namespace OfficeOpenXml
                         hl.ColSpann = toCol - fromCol;
                     }
 
-                    string tt = xr.GetAttribute("tooltip");
-                    if (!string.IsNullOrEmpty(tt))
+                    if (hl != null)
                     {
-                        hl.ToolTip = tt;
-                    }
-                    _hyperLinks.SetValue(fromRow, fromCol, hl);
+                        string tt = xr.GetAttribute("tooltip");
+                        if (!string.IsNullOrEmpty(tt))
+                        {
+                            hl.ToolTip = tt;
+                        }
+                        _hyperLinks.SetValue(fromRow, fromCol, hl);
+                    }                 
                 }
                 else
                 {
